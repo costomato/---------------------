@@ -1,0 +1,145 @@
+<html>
+
+<head>
+    <title>स्वर स्थानान्तरण साधन</title>
+</head>
+
+<body>
+    <h1>Music Transposer</h1>
+    <form id="transpose-form">
+        <label for="music">Music:</label>
+        <br>
+        <textarea id="music" rows="10" cols="50"></textarea>
+        <br>
+        <label for="semitones">Semitones:</label>
+        <br>
+        <input type="number" id="semitones" min="-12" max="12">
+        <br>
+        <br>
+        <button type="submit">Transpose</button>
+    </form>
+    <br>
+    <div id="output"></div>
+
+    <h1>Music Converter</h1>
+    <form id="convert-form">
+        <label for="music">Music:</label>
+        <br>
+        <textarea id="music-convert" rows="10" cols="50"></textarea>
+        <br>
+        <br>
+        <button type="submit">Convert</button>
+    </form>
+    <br>
+    <div id="output-conv"></div>
+    <script>
+        const SEMITONES_PER_OCTAVE = 12;
+
+        function transpose(music, semitones) {
+            // split the music into an array of notes
+            let notes = music.split(' ');
+
+            // transpose each note by the given number of semitones
+            let transposedNotes = notes.map(note => {
+                let pitch = note.substring(0, note.length - 1);
+                let octave = parseInt(note.substring(note.length - 1));
+                let transposedPitch = (SEMITONES_PER_OCTAVE + pitchToNumber(pitch) + semitones) % SEMITONES_PER_OCTAVE;
+                let transposedOctave = octave + Math.floor((pitchToNumber(pitch) + semitones) / SEMITONES_PER_OCTAVE);
+                return numberToPitch(transposedPitch) + transposedOctave;
+            });
+
+            // join the transposed notes into a single string
+            return transposedNotes.join(' ');
+        }
+
+        function pitchToNumber(pitch) {
+            switch (pitch.toUpperCase()) {
+                case 'C': return 0;
+                case 'C#': case 'Db': return 1;
+                case 'D': return 2;
+                case 'D#': case 'Eb': return 3;
+                case 'E': return 4;
+                case 'F': return 5;
+                case 'F#': case 'Gb': return 6;
+                case 'G': return 7;
+                case 'G#': case 'Ab': return 8;
+                case 'A': return 9;
+                case 'A#': case 'Bb': return 10;
+                case 'B': return 11;
+            }
+        }
+
+        function numberToPitch(number) {
+            switch (number) {
+                case 0: return 'C';
+                case 1: return 'C#';
+                case 2: return 'D';
+                case 3: return 'D#';
+                case 4: return 'E';
+                case 5: return 'F';
+                case 6: return 'F#';
+                case 7: return 'G';
+                case 8: return 'G#';
+                case 9: return 'A';
+                case 10: return 'A#';
+                case 11: return 'B';
+            }
+        }
+
+        let form = document.getElementById('transpose-form');
+        form.addEventListener('submit', event => {
+            event.preventDefault();
+            let music = document.getElementById('music').value;
+            let semitones = parseInt(document.getElementById('semitones').value);
+            let output = document.getElementById('output');
+            output.innerHTML = transpose(music, semitones);
+        });
+
+        function westernToIndian(note) {
+            switch (note) {
+                case 'C': return 'Sa';
+                case 'C#': case 'Db': return 're';
+                case 'D': return 'Re';
+                case 'D#': case 'Eb': return 'ga';
+                case 'E': return 'Ga';
+                case 'F': return 'ma';
+                case 'F#': case 'Gb': return 'Ma';
+                case 'G': return 'Pa';
+                case 'G#': case 'Ab': return 'dha';
+                case 'A': return 'Dha';
+                case 'A#': case 'Bb': return 'ni';
+                case 'B': return 'Ni';
+            }
+        }
+
+        function convert() {
+            // get the input music
+            let input = document.getElementById('music-convert').value;
+
+            // split the input into an array of notes
+            let notes = input.split(' ');
+
+            // convert each note
+            let convertedNotes = notes.map(note => {
+                let pitch = note.substring(0, note.length - 1);
+                let octave = note.substring(note.length - 1);
+                return westernToIndian(pitch) + octave;
+            });
+
+            // join the converted notes into a single string
+            let output = convertedNotes.join(' ');
+
+            // display the output
+            document.getElementById('output-conv').innerHTML = output;
+        }
+
+        // register the form submit handler
+        let form2 = document.getElementById('convert-form');
+        form2.addEventListener('submit', event => {
+            event.preventDefault();
+            convert();
+        });
+    </script>
+</body>
+
+</html>
