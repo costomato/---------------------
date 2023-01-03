@@ -28,6 +28,14 @@
         <textarea id="music-convert" rows="10" cols="50"></textarea>
         <br>
         <br>
+        <label for="direction">Direction:</label>
+        <br>
+        <select id="direction">
+            <option value="western-to-indian">Western to Indian</option>
+            <option value="indian-to-western">Indian to Western</option>
+        </select>
+        <br>
+        <br>
         <button type="submit">Convert</button>
     </form>
     <br>
@@ -37,12 +45,12 @@
 
         function transpose(music, semitones) {
             // split the music into an array of notes
-            let notes = music.split(' ');
+            let notes = music.replace(/\n/g, " ").split(' ');
 
             // transpose each note by the given number of semitones
             let transposedNotes = notes.map(note => {
-                let pitch = note.substring(0, note.length - 1);
-                let octave = parseInt(note.substring(note.length - 1));
+                let pitch = note.replace(/[^A-Za-z#]/g, '');
+                let octave = parseInt(note.replace(/[^0-9]/g, ''));
                 let transposedPitch = (SEMITONES_PER_OCTAVE + pitchToNumber(pitch) + semitones) % SEMITONES_PER_OCTAVE;
                 let transposedOctave = octave + Math.floor((pitchToNumber(pitch) + semitones) / SEMITONES_PER_OCTAVE);
                 return numberToPitch(transposedPitch) + transposedOctave;
@@ -95,8 +103,9 @@
             output.innerHTML = transpose(music, semitones);
         });
 
+        // music conversion functions
         function westernToIndian(note) {
-            switch (note) {
+            switch (note.toUpperCase()) {
                 case 'C': return 'Sa';
                 case 'C#': case 'Db': return 're';
                 case 'D': return 'Re';
@@ -112,23 +121,53 @@
             }
         }
 
-        function convert() {
-            // get the input music
-            let input = document.getElementById('music-convert').value;
+        function indianToWestern(note) {
+            switch (note) {
+                case 'Sa': case 'S': return 'C';
+                case 're': case 'r': return 'C#';
+                case 'Re': case 'R': return 'D';
+                case 'ga': case 'g': return 'D#';
+                case 'Ga': case 'G': return 'E';
+                case 'ma': case 'm': return 'F';
+                case 'Ma': case 'M': return 'F#';
+                case 'Pa': case 'P': return 'G';
+                case 'dha': case 'd': return 'G#';
+                case 'Dha': case 'D': return 'A';
+                case 'ni': case 'n': return 'A#';
+                case 'Ni': case 'N': return 'B';
+            }
+        }
 
-            // split the input into an array of notes
-            let notes = input.split(' ');
+        function convert() {
+            // get the input music and conversion direction
+            let input = document.getElementById('music-convert').value;
+            let direction = document.getElementById('direction').value;
+
+            // split the input into an array of individual notes
+            let notes = input.replace(/\n/g, " ").split(' ');
 
             // convert each note
-            let convertedNotes = notes.map(note => {
-                let pitch = note.substring(0, note.length - 1);
-                let octave = note.substring(note.length - 1);
-                return westernToIndian(pitch) + octave;
-            });
-
-            // join the converted notes into a single string
-            let output = convertedNotes.join(' ');
-
+            let output = '';
+            if (direction === 'western-to-indian') {
+                // convert each note
+                let convertedNotes = notes.map(note => {
+                    // let pitch = note.substring(0, note.length - 1);
+                    let pitch = note.replace(/[^A-Za-z#]/g, '');
+                    // let octave = note.substring(note.length - 1);
+                    let octave = note.replace(/[^0-9]/g, '');
+                    return westernToIndian(pitch) + octave;
+                });
+                output = convertedNotes.join(' ');
+            } else {
+                let convertedNotes = notes.map(note => {
+                    // let pitch = note.substring(0, note.length - 1);
+                    let pitch = note.replace(/[^A-Za-z]/g, '');
+                    // let octave = note.substring(note.length - 1);
+                    let octave = note.replace(/[^0-9]/g, '');
+                    return indianToWestern(pitch) + octave;
+                });
+                output = convertedNotes.join(' ');
+            }
             // display the output
             document.getElementById('output-conv').innerHTML = output;
         }
