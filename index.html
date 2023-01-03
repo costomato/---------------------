@@ -2,44 +2,162 @@
 
 <head>
     <title>स्वर स्थानान्तरण साधन</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
 
-<body>
-    <h1>Music Transposer</h1>
-    <form id="transpose-form">
-        <label for="music">Music:</label>
-        <br>
-        <textarea id="music" rows="10" cols="50"></textarea>
-        <br>
-        <label for="semitones">Semitones:</label>
-        <br>
-        <input type="number" id="semitones" min="-12" max="12">
-        <br>
-        <br>
-        <button type="submit">Transpose</button>
-    </form>
-    <br>
-    <div id="output"></div>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    <h1>Music Converter</h1>
-    <form id="convert-form">
-        <label for="music">Music:</label>
-        <br>
-        <textarea id="music-convert" rows="10" cols="50"></textarea>
-        <br>
-        <br>
-        <label for="direction">Direction:</label>
-        <br>
-        <select id="direction">
+:root {
+  --primary-background: #FFE6B7;
+  --primary-color: #FF2E00;
+  --primary-accent: #FF8A5B;
+  --primary-accent-alpha: #FF8A5B33;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--primary-background);
+  color: var(--primary-color);
+}
+
+input, textarea, select, button {
+  outline: none;
+  border: none;
+  background: rgba(0, 0, 0, 0);
+  border: solid 1px var(--primary-accent);
+  border-radius: 5px;
+}
+
+input, textarea, select {
+  background: var(--primary-accent-alpha);
+  padding: 0.5em 1em;
+}
+
+button {
+  background: var(--primary-color);
+  color: var(--primary-background);
+  padding: 0.5em 2em;
+  cursor: pointer;
+}
+
+nav .wrapper{
+  width: 1500px;
+  max-width: 90vw;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.source {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  padding: 0.5em 1em;
+  font-size: 1.2em;
+}
+
+.content-wrapper {
+  width: 1200px;
+  max-width: 90vw;
+  margin: 0 auto;
+}
+
+.tab-bar {
+  display: flex;
+  gap: 0.5em;
+}
+
+.tab-bar > div {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 0.5em 0;
+  border-bottom: 8px solid var(--primary-accent-alpha);
+  cursor: pointer;
+}
+
+.tab-wrapper {
+  display: flex;
+}
+
+.main-content {
+  width: 100%;
+}
+</style>
+
+<body>
+
+  <nav>
+    <div class="wrapper">
+      <div class="logo">स्थानांतरण</div>
+      <div class="source">
+        स्रोत
+        <img src="github.svg" alt="github">
+      </div>
+    </div>
+  </nav>
+
+  <div class="content-wrapper">
+
+    <div class="tab-bar">
+      <div class="transpose-tab">Transpose</div>
+      <div class="translate-tab">Translate</div>
+    </div>
+
+    <div class="tab-wrapper">
+      <div class="main-content">
+        <h1>Music Transposer</h1>
+        <form id="transpose-form">
+          <label for="music">Music:</label>
+          <br>
+          <textarea id="music" rows="10" cols="50"></textarea>
+          <br>
+          <label for="semitones">Semitones:</label>
+          <br>
+          <input type="number" id="semitones" min="-12" max="12">
+          <br>
+          <br>
+          <button type="submit">Transpose</button>
+        </form>
+        <div id="output"></div>
+      </div>
+
+      <div class="main-content">
+        <h1>Music Converter</h1>
+        <form id="convert-form">
+          <label for="music">Music:</label>
+          <br>
+          <textarea id="music-convert" rows="10" cols="50"></textarea>
+          <br>
+          <br>
+          <label for="direction">Direction:</label>
+          <br>
+          <select id="direction">
             <option value="western-to-indian">Western to Indian</option>
             <option value="indian-to-western">Indian to Western</option>
-        </select>
-        <br>
-        <br>
-        <button type="submit">Convert</button>
-    </form>
-    <br>
-    <div id="output-conv"></div>
+          </select>
+          <br>
+          <br>
+          <button type="submit">Convert</button>
+        </form>
+        <div id="output-conv"></div>
+      </div>
+    </div>
+
+  </div>
     <script>
         const SEMITONES_PER_OCTAVE = 12;
 
