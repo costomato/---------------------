@@ -30,4 +30,4 @@ Output: re ga ma Ma dha ni Sa re
 
 ## Project is under construction. A lot of work is yet to be done
 
-Testing can be done here: https://costomato.github.io/swar-sthanaantaran-saadhan/
+Testing can be done here: https://costomato.github.io/swar-sthaanaantaran-saadhan/
