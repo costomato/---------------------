@@ -109,6 +109,26 @@
         flex: 1;
     }
 
+    .output {
+      min-height: 4em;
+      background: var(--primary-accent-alpha);
+      margin: 1em 0.5em 0 0 ;
+      padding: 0.5em 3em 0.5em 1em;
+      border-radius: 5px;
+      position: relative;
+    }
+
+    .output::after {
+      content: url('copy.svg');
+      display: flex;
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      top: 1em;
+      right: 1em;
+      cursor: pointer;
+    }
+
     #output,
     #output-conv {
         white-space: pre-wrap;
@@ -149,8 +169,7 @@
                     <br>
                     <button type="submit">Transpose</button>
                 </form>
-                <br>
-                <div id="output"></div>
+                <div class="output" id="output"></div>
             </div>
 
             <div class="main-content">
@@ -159,7 +178,6 @@
                     <label for="music">Music:</label>
                     <br>
                     <textarea id="music-convert" rows="10" cols="50"></textarea>
-                    <br>
                     <br>
                     <label for="direction">Direction:</label>
                     <br>
@@ -171,8 +189,7 @@
                     <br>
                     <button type="submit">Convert</button>
                 </form>
-                <br>
-                <div id="output-conv"></div>
+                <div class="output" id="output-conv"></div>
             </div>
         </div>
 
@@ -339,6 +356,16 @@
             // display the output
             document.getElementById('output-conv').innerHTML = output;
         }
+      
+        function copyToClipboard(e){
+            const text = e.target.innerText;
+            if(text) navigator.clipboard.writeText(text);
+        }
+
+        document.querySelectorAll(".output").forEach(elem => {
+            elem.addEventListener('click', copyToClipboard);
+        })
+
 
         // register the form submit handler
         let form2 = document.getElementById('convert-form');
