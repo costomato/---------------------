@@ -1,0 +1,112 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--primary-background: #FFE6B7;
+	--primary-color: #FF2E00;
+	--primary-accent: #FF8A5B;
+	--primary-accent-alpha: #FF8A5B33;
+}
+
+body {
+	font-family: 'Poppins', sans-serif;
+	background: var(--primary-background);
+	color: var(--primary-color);
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+input,
+textarea,
+select,
+button {
+	outline: none;
+	border: none;
+	background: rgba(0, 0, 0, 0);
+	border: solid 1px var(--primary-accent);
+	border-radius: 5px;
+}
+
+input,
+textarea,
+select {
+	background: var(--primary-accent-alpha);
+	padding: 0.5em 1em;
+}
+
+button {
+	background: var(--primary-color);
+	color: var(--primary-background);
+	padding: 0.5em 2em;
+	cursor: pointer;
+}
+
+nav .wrapper {
+	width: 1500px;
+	max-width: 90vw;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.logo {
+	font-size: 1.5em;
+	font-weight: 700;
+}
+
+.source {
+	display: flex;
+	gap: 1em;
+	align-items: center;
+	padding: 0.5em 1em;
+	font-size: 1.2em;
+}
+
+.content-wrapper {
+	width: 1200px;
+	max-width: 90vw;
+	margin: 0 auto;
+}
+
+.tab-bar {
+	display: flex;
+	gap: 0.5em;
+}
+
+.tab-bar>div {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	padding: 0.5em 0;
+	border-bottom: 8px solid var(--primary-accent-alpha);
+	cursor: pointer;
+}
+
+.tab-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.main-content {
+	flex: 1;
+}
+
+.output {
+	min-height: 4em;
+	background: var(--primary-accent-alpha);
+	margin: 1em 0.5em 0 0 ;
+	padding: 0.5em 3em 0.5em 1em;
+	border-radius: 5px;
+}
+
+#output,
+#output-conv {
+	white-space: pre-wrap;
+}
