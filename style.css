@@ -111,11 +111,13 @@ nav .wrapper {
 	white-space: pre-wrap;
 }
 
-.output-wrapper {
+.output-wrapper,
+.output-wrapper-conv {
 	position: relative;
 }
 
-.output-wrapper > img {
+.output-wrapper > img,
+.output-wrapper-conv > img {
 	position: absolute;
 	top: 1em;
 	right: 1em;
