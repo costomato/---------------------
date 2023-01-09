@@ -159,15 +159,13 @@ function convert() {
   document.getElementById('output-conv').innerHTML = output;
 }
 
-function copyToClipboard(e){
-  const text = e.target.innerText;
+function copyToClipboard(selector){
+  const text = document.querySelector(selector).innerText;
   if(text) navigator.clipboard.writeText(text);
 }
 
-document.querySelectorAll(".output").forEach(elem => {
-  elem.addEventListener('click', copyToClipboard);
-})
-
+document.querySelector(".output-wrapper").addEventListener('click', () => copyToClipboard("#output"));
+document.querySelector(".output-wrapper-conv").addEventListener('click', () => copyToClipboard("#output-conv"));
 
 // register the form submit handler
 let form2 = document.getElementById('convert-form');
