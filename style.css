@@ -110,3 +110,16 @@ nav .wrapper {
 #output-conv {
 	white-space: pre-wrap;
 }
+
+.output-wrapper {
+	position: relative;
+}
+
+.output-wrapper > img {
+	position: absolute;
+	top: 1em;
+	right: 1em;
+	width: 1.2em;
+	height: 1.2em;
+	cursor: pointer;
+}
